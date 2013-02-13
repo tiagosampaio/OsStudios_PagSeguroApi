@@ -139,22 +139,7 @@ abstract class OsStudios_PagSeguroApi_Model_Payment extends Mage_Payment_Model_M
         return $this;
     }
     
-
-	/**
-     * 
-     * Registry any event/error log.
-     * 
-     * @return OsStudios_PagSeguro_Model_Payment
-     * 
-     * @param string $message
-     */
-    protected function log($message)
-    {
-    	Mage::getSingleton('pagseguro/data')->log($message);
-    	return $this;
-    }
-
-
+    
     /**
      * Provide Helper to children classes
      *

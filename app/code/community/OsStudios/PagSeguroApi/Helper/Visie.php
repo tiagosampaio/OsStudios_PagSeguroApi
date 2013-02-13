@@ -24,38 +24,6 @@ class OsStudios_PagSeguroApi_Helper_Visie extends Mage_Core_Helper_Data
 {
     
 	/**
-     * convertNumber
-     * (Extraída da biblioteca PHP do PagSeguro produzida pela Visie)
-     * 
-	 * Converte número para padrão numérico
-	 *
-	 * @param string|int|double $number Numero que deseja converter
-	 * 
-	 * @return double
-	 */
-	function convertNumber ($number)
-	{
-		$number = preg_replace('/\D/', '', $number) / 100;
-		return (double) str_replace(',', '.', $number);
-	}
-
-
-	/**
-     * formatNumber
-     * 
-	 * Formata número para envio ao PagSeguro
-	 *
-	 * @param int|double $number Numero que deseja converter
-	 * 
-	 * @return int
-	 */
-	function formatNumber ($number)
-	{
-		return sprintf('%.2f', (double) $number) * 100;
-	}
-	
-
-	/**
 	 * trataEndereco
      * (Extraída da biblioteca PHP do PagSeguro produzida pela Visie)
 	 *

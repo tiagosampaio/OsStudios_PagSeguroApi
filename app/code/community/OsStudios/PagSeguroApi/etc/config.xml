@@ -37,11 +37,11 @@
         <models>
             <pagseguroapi>
                 <class>OsStudios_PagSeguroApi_Model</class>
-                <resourceModel>osstudios_pagseguroapi_resource</resourceModel>
+                <resourceModel>osstudios_pagseguroapi_mysql4</resourceModel>
             </pagseguroapi>
-            <osstudios_pagseguroapi_resource>
-            	<class>OsStudios_PagSeguroApi_Model_Resource</class>
-                <deprecatedNode>osstudios_pagseguroapi_mysql4</deprecatedNode>
+            <osstudios_pagseguroapi_mysql4>
+            	<class>OsStudios_PagSeguroApi_Model_Mysql4</class>
+                <!--<deprecatedNode>osstudios_pagseguroapi_mysql4</deprecatedNode>-->
                 <entities>
                     <payment_history>
                         <table>osstudios_pagseguroapi_payment_history</table>
@@ -50,7 +50,7 @@
                         <table>osstudios_pagseguroapi_returns_transaction</table>
                     </returns_transaction>
                 </entities>
-            </osstudios_pagseguroapi_resource>
+            </osstudios_pagseguroapi_mysql4>
         </models>
         <resources>
             <pagseguroapi_setup>
@@ -481,63 +481,291 @@
                 </shipping>
             </transaction>
     		<error_codes>
-	            <code_11001>receiverEmail is required.</code_11001>
-	            <code_11002>receiverEmail invalid length: {0}</code_11002>
-	            <code_11003>receiverEmail invalid value.</code_11003>
-	            <code_11004>Currency is required.</code_11004>
-	            <code_11005>Currency invalid value: {0}</code_11005>
-	            <code_11006>redirectURL invalid length: {0}</code_11006>
-	            <code_11007>redirectURL invalid value: {0}</code_11007>
-	            <code_11008>reference invalid length: {0}</code_11008>
-	            <code_11009>senderEmail invalid length: {0}</code_11009>
-	            <code_11010>senderEmail invalid value: {0}</code_11010>
-	            <code_11011>senderName invalid length: {0}</code_11011>
-	            <code_11012>senderName invalid value: {0}</code_11012>
-	            <code_11013>senderAreaCode invalid value: {0}</code_11013>
-	            <code_11014>senderPhone invalid value: {0}</code_11014>
-	            <code_11015>ShippingType is required.</code_11015>
-	            <code_11016>shippingType invalid type: {0}</code_11016>
-	            <code_11017>shippingPostalCode invalid Value: {0}</code_11017>
-	            <code_11018>shippingAddressStreet invalid length: {0}</code_11018>
-	            <code_11019>shippingAddressNumber invalid length: {0}</code_11019>
-	            <code_11020>shippingAddressComplement invalid length: {0}</code_11020>
-	            <code_11021>shippingAddressDistrict invalid length: {0}</code_11021>
-	            <code_11022>shippingAddressCity invalid length: {0}</code_11022>
-	            <code_11023>shippingAddressState invalid value: {0}, must fit the pattern: \w\{2\} (e. g. "SP")</code_11023>
-	            <code_11024>Itens invalid quantity.</code_11024>
-	            <code_11025>Item Id is required.</code_11025>
-	            <code_11026>Item quantity is required.</code_11026>
-	            <code_11027>Item quantity out of range: {0}</code_11027>
-	            <code_11028>Item amount is required. (e.g. "12.00")</code_11028>
-	            <code_11029>Item amount invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</code_11029>
-	            <code_11030>Item amount out of range: {0}</code_11030>
-	            <code_11031>Item shippingCost invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</code_11031>
-	            <code_11032>Item shippingCost out of range: {0}</code_11032>
-	            <code_11033>Item description is required.</code_11033>
-	            <code_11034>Item description invalid length: {0}</code_11034>
-	            <code_11035>Item weight invalid Value: {0}</code_11035>
-	            <code_11036>Extra amount invalid pattern: {0}. Must fit the patern: -?\d+.\d\{2\}</code_11036>
-	            <code_11037>Extra amount out of range: {0}</code_11037>
-	            <code_11038>Invalid receiver for checkout: {0}, verify receiver's account status.</code_11038>
-	            <code_11039>Malformed request XML: {0}.</code_11039>
-	            <code_11040>maxAge invalid pattern: {0}. Must fit the patern: \d+</code_11040>
-	            <code_11041>maxAge out of range: {0}</code_11041>
-	            <code_11042>maxUses invalid pattern: {0}. Must fit the patern: \d+</code_11042>
-	            <code_11043>maxUses out of range.</code_11043>
-	            <code_11044>initialDate is required.</code_11044>
-	            <code_11045>initialDate must be lower than allowed limit.</code_11045>
-	            <code_11046>initialDate must not be older than 6 months.</code_11046>
-	            <code_11047>initialDate must be lower than or equal finalDate.</code_11047>
-	            <code_11048>search interval must be lower than or equal 30 days.</code_11048>
-	            <code_11049>finalDate must be lower than allowed limit.</code_11049>
-	            <code_11050>initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</code_11050>
-	            <code_11051>finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</code_11051>
-	            <code_11052>page invalid value.</code_11052>
-	            <code_11053>maxPageResults invalid value (must be between 1 and 1000).</code_11053>
-	            <code_11054>abandonURL invalid length: {0}</code_11054>
-	            <code_11055>abandonURL invalid value: {0}</code_11055>
-	            <code_11056>sender address required invalid value: {0}</code_11056>
-	            <code_11057>sender address not required with address data filled</code_11057>
+                <code_11001>
+                    <value>11001</value>
+                    <label>receiverEmail is required.</label>
+                    <message>receiverEmail is required.</message>
+                </code_11001>
+                <code_11002>
+                    <value>11002</value>
+                    <label>receiverEmail invalid length: {0}</label>
+                    <message>receiverEmail invalid length: {0}</message>
+                </code_11002>
+                <code_11003>
+                    <value>11003</value>
+                    <label>receiverEmail invalid value.</label>
+                    <message>receiverEmail invalid value.</message>
+                </code_11003>
+                <code_11004>
+                    <value>11004</value>
+                    <label>Currency is required.</label>
+                    <message>Currency is required.</message>
+                </code_11004>
+                <code_11005>
+                    <value>11005</value>
+                    <label>Currency invalid value: {0}</label>
+                    <message>Currency invalid value: {0}</message>
+                </code_11005>
+                <code_11006>
+                    <value>11006</value>
+                    <label>redirectURL invalid length: {0}</label>
+                    <message>redirectURL invalid length: {0}</message>
+                </code_11006>
+                <code_11007>
+                    <value>11007</value>
+                    <label>redirectURL invalid value: {0}</label>
+                    <message>redirectURL invalid value: {0}</message>
+                </code_11007>
+                <code_11008>
+                    <value>11008</value>
+                    <label>reference invalid length: {0}</label>
+                    <message>reference invalid length: {0}</message>
+                </code_11008>
+                <code_11009>
+                    <value>11009</value>
+                    <label>senderEmail invalid length: {0}</label>
+                    <message>senderEmail invalid length: {0}</message>
+                </code_11009>
+                <code_11010>
+                    <value>11010</value>
+                    <label>senderEmail invalid value: {0}</label>
+                    <message>senderEmail invalid value: {0}</message>
+                </code_11010>
+                <code_11011>
+                    <value>11011</value>
+                    <label>senderName invalid length: {0}</label>
+                    <message>senderName invalid length: {0}</message>
+                </code_11011>
+                <code_11012>
+                    <value>11012</value>
+                    <label>senderName invalid value: {0}</label>
+                    <message>senderName invalid value: {0}</message>
+                </code_11012>
+                <code_11013>
+                    <value>11013</value>
+                    <label>senderAreaCode invalid value: {0}</label>
+                    <message>senderAreaCode invalid value: {0}</message>
+                </code_11013>
+                <code_11014>
+                    <value>11014</value>
+                    <label>senderPhone invalid value: {0}</label>
+                    <message>senderPhone invalid value: {0}</message>
+                </code_11014>
+                <code_11015>
+                    <value>11015</value>
+                    <label>ShippingType is required.</label>
+                    <message>ShippingType is required.</message>
+                </code_11015>
+                <code_11016>
+                    <value>11016</value>
+                    <label>shippingType invalid type: {0}</label>
+                    <message>shippingType invalid type: {0}</message>
+                </code_11016>
+                <code_11017>
+                    <value>11017</value>
+                    <label>shippingPostalCode invalid Value: {0}</label>
+                    <message>shippingPostalCode invalid Value: {0}</message>
+                </code_11017>
+                <code_11018>
+                    <value>11018</value>
+                    <label>shippingAddressStreet invalid length: {0}</label>
+                    <message>shippingAddressStreet invalid length: {0}</message>
+                </code_11018>
+                <code_11019>
+                    <value>11019</value>
+                    <label>shippingAddressNumber invalid length: {0}</label>
+                    <message>shippingAddressNumber invalid length: {0}</message>
+                </code_11019>
+                <code_11020>
+                    <value>11020</value>
+                    <label>shippingAddressComplement invalid length: {0}</label>
+                    <message>shippingAddressComplement invalid length: {0}</message>
+                </code_11020>
+                <code_11021>
+                    <value>11021</value>
+                    <label>shippingAddressDistrict invalid length: {0}</label>
+                    <message>shippingAddressDistrict invalid length: {0}</message>
+                </code_11021>
+                <code_11022>
+                    <value>11022</value>
+                    <label>shippingAddressCity invalid length: {0}</label>
+                    <message>shippingAddressCity invalid length: {0}</message>
+                </code_11022>
+                <code_11023>
+                    <value>11023</value>
+                    <label>shippingAddressState invalid value: {0}, must fit the pattern: \w\{2\} (e. g. "SP")</label>
+                    <message>shippingAddressState invalid value: {0}, must fit the pattern: \w\{2\} (e. g. "SP")</message>
+                </code_11023>
+                <code_11024>
+                    <value>11024</value>
+                    <label>Itens invalid quantity.</label>
+                    <message>Itens invalid quantity.</message>
+                </code_11024>
+                <code_11025>
+                    <value>11025</value>
+                    <label>Item Id is required.</label>
+                    <message>Item Id is required.</message>
+                </code_11025>
+                <code_11026>
+                    <value>11026</value>
+                    <label>Item quantity is required.</label>
+                    <message>Item quantity is required.</message>
+                </code_11026>
+                <code_11027>
+                    <value>11027</value>
+                    <label>Item quantity out of range: {0}</label>
+                    <message>Item quantity out of range: {0}</message>
+                </code_11027>
+                <code_11028>
+                    <value>11028</value>
+                    <label>Item amount is required. (e.g. "12.00")</label>
+                    <message>Item amount is required. (e.g. "12.00")</message>
+                </code_11028>
+                <code_11029>
+                    <value>11029</value>
+                    <label>Item amount invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</label>
+                    <message>Item amount invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</message>
+                </code_11029>
+                <code_11030>
+                    <value>11030</value>
+                    <label>Item amount out of range: {0}</label>
+                    <message>Item amount out of range: {0}</message>
+                </code_11030>
+                <code_11031>
+                    <value>11031</value>
+                    <label>Item shippingCost invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</label>
+                    <message>Item shippingCost invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</message>
+                </code_11031>
+                <code_11032>
+                    <value>11032</value>
+                    <label>Item shippingCost out of range: {0}</label>
+                    <message>Item shippingCost out of range: {0}</message>
+                </code_11032>
+                <code_11033>
+                    <value>11033</value>
+                    <label>Item description is required.</label>
+                    <message>Item description is required.</message>
+                </code_11033>
+                <code_11034>
+                    <value>11034</value>
+                    <label>Item description invalid length: {0}</label>
+                    <message>Item description invalid length: {0}</message>
+                </code_11034>
+                <code_11035>
+                    <value>11035</value>
+                    <label>Item weight invalid Value: {0}</label>
+                    <message>Item weight invalid Value: {0}</message>
+                </code_11035>
+                <code_11036>
+                    <value>11036</value>
+                    <label>Extra amount invalid pattern: {0}. Must fit the patern: -?\d+.\d\{2\}</label>
+                    <message>Extra amount invalid pattern: {0}. Must fit the patern: -?\d+.\d\{2\}</message>
+                </code_11036>
+                <code_11037>
+                    <value>11037</value>
+                    <label>Extra amount out of range: {0}</label>
+                    <message>Extra amount out of range: {0}</message>
+                </code_11037>
+                <code_11038>
+                    <value>11038</value>
+                    <label>Invalid receiver for checkout: {0}, verify receiver's account status.</label>
+                    <message>Invalid receiver for checkout: {0}, verify receiver's account status.</message>
+                </code_11038>
+                <code_11039>
+                    <value>11039</value>
+                    <label>Malformed request XML: {0}.</label>
+                    <message>Malformed request XML: {0}.</message>
+                </code_11039>
+                <code_11040>
+                    <value>11040</value>
+                    <label>maxAge invalid pattern: {0}. Must fit the patern: \d+</label>
+                    <message>maxAge invalid pattern: {0}. Must fit the patern: \d+</message>
+                </code_11040>
+                <code_11041>
+                    <value>11041</value>
+                    <label>maxAge out of range: {0}</label>
+                    <message>maxAge out of range: {0}</message>
+                </code_11041>
+                <code_11042>
+                    <value>11042</value>
+                    <label>maxUses invalid pattern: {0}. Must fit the patern: \d+</label>
+                    <message>maxUses invalid pattern: {0}. Must fit the patern: \d+</message>
+                </code_11042>
+                <code_11043>
+                    <value>11043</value>
+                    <label>maxUses out of range.</label>
+                    <message>maxUses out of range.</message>
+                </code_11043>
+                <code_11044>
+                    <value>11044</value>
+                    <label>initialDate is required.</label>
+                    <message>initialDate is required.</message>
+                </code_11044>
+                <code_11045>
+                    <value>11045</value>
+                    <label>initialDate must be lower than allowed limit.</label>
+                    <message>initialDate must be lower than allowed limit.</message>
+                </code_11045>
+                <code_11046>
+                    <value>11046</value>
+                    <label>initialDate must not be older than 6 months.</label>
+                    <message>initialDate must not be older than 6 months.</message>
+                </code_11046>
+                <code_11047>
+                    <value>11047</value>
+                    <label>initialDate must be lower than or equal finalDate.</label>
+                    <message>initialDate must be lower than or equal finalDate.</message>
+                </code_11047>
+                <code_11048>
+                    <value>11048</value>
+                    <label>search interval must be lower than or equal 30 days.</label>
+                    <message>search interval must be lower than or equal 30 days.</message>
+                </code_11048>
+                <code_11049>
+                    <value>11049</value>
+                    <label>finalDate must be lower than allowed limit.</label>
+                    <message>finalDate must be lower than allowed limit.</message>
+                </code_11049>
+                <code_11050>
+                    <value>11050</value>
+                    <label>initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</label>
+                    <message>initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</message>
+                </code_11050>
+                <code_11051>
+                    <value>11051</value>
+                    <label>finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</label>
+                    <message>finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</message>
+                </code_11051>
+                <code_11052>
+                    <value>11052</value>
+                    <label>page invalid value.</label>
+                    <message>page invalid value.</message>
+                </code_11052>
+                <code_11053>
+                    <value>11053</value>
+                    <label>maxPageResults invalid value (must be between 1 and 1000).</label>
+                    <message>maxPageResults invalid value (must be between 1 and 1000).</message>
+                </code_11053>
+                <code_11054>
+                    <value>11054</value>
+                    <label>abandonURL invalid length: {0}</label>
+                    <message>abandonURL invalid length: {0}</message>
+                </code_11054>
+                <code_11055>
+                    <value>11055</value>
+                    <label>abandonURL invalid value: {0}</label>
+                    <message>abandonURL invalid value: {0}</message>
+                </code_11055>
+                <code_11056>
+                    <value>11056</value>
+                    <label>sender address required invalid value: {0}</label>
+                    <message>sender address required invalid value: {0}</message>
+                </code_11056>
+                <code_11057>
+                    <value>11057</value>
+                    <label>sender address not required with address data filled</label>
+                    <message>sender address not required with address data filled</message>
+                </code_11057>
         	</error_codes>
         </osstudios_pagseguroapi>
     </default>

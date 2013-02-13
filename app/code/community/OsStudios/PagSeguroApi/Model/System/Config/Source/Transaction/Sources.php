@@ -20,7 +20,7 @@
  *
  */
 
-class OsStudios_PagSeguroApi_Model_System_Config_Source_Transaction_Sources extends OsStudios_PagSeguroApi_Model_System_Config_Source_Transaction_Config
+class OsStudios_PagSeguroApi_Model_System_Config_Source_Transaction_Sources extends OsStudios_PagSeguroApi_Model_System_Config_Source_Config
 {
 	
 	public function toOptionArray()

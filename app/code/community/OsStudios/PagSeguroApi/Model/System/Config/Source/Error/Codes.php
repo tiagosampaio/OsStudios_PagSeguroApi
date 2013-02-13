@@ -20,18 +20,13 @@
  *
  */
 
-class OsStudios_PagSeguroApi_Model_System_Config_Source_Transaction_Config
+class OsStudios_PagSeguroApi_Model_System_Config_Source_Error_Codes extends OsStudios_PagSeguroApi_Model_System_Config_Source_Config
 {
 	
-	public function getAssociativeArray()
+	public function toOptionArray()
 	{
-		$options = $this->toOptionArray();
-		$associative = array();
-		foreach($options as $key => $option) {
-			$associative[$option['value']] = Mage::helper('pagseguroapi')->__($option['label']);
-		}
-
-		return $associative;
+        $options = Mage::app()->getConfig()->getNode('default/osstudios_pagseguroapi/error_codes')->asArray();
+        return $options;
 	}
 
 }

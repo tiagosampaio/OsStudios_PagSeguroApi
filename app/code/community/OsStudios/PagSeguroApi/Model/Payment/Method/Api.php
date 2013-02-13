@@ -90,16 +90,21 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
         
         $request = $client->request();
 
-        if(!$this->helper()->isXml($request->getBody())) {
+        if(!$this->helper()->isXml(($body = $request->getBody()))) {
             Mage::log($this->helper()->__("When the system tried to authorize with login '%s' and token '%s' got '%s' as result.", $credentials->getAccountEmail(), $credentials->getAccountToken(), $request->getBody()), null, 'osstudios_pagseguro_unauthorized.log');
             Mage::throwException($this->helper()->__('A problem has occured while trying to authorize the transaction in PagSeguro.'));
         }
 
-        $body = new Varien_Simplexml_Config($request->getBody());
+        $hasErrors = $this->_hasErrorInReturn($body);
+        if(is_array($hasErrors)) {
+            $message = implode("\n", $hasErrors);
+            Mage::throwException($message);
+        }
 
-        $result = $body->getNode()->asArray();
+        $config = new Varien_Simplexml_Config($body);
+        $result = $config->getNode()->asArray();
 
-        if((!$result['code'] || !$this->_isValidPagSeguroResultCode($result['code'])) || !$result['date']) {
+        if((!isset($result['code']) || !$this->_isValidPagSeguroResultCode($result['code'])) || !isset($result['date'])) {
             Mage::throwException($this->helper()->__('Your payment could not be processed by PagSeguro.'));
         }
 
@@ -177,6 +182,37 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
         }
 
         return false;
+    }
+
+
+    /**
+     * Checks if exists errors in the result
+     * 
+     * @param (xml) $code
+     *
+     * @return || Array
+     */
+    protected function _hasErrorInReturn($body)
+    {
+        if($this->helper()->isXml($body)) {
+            $xml = new SimpleXMLElement($body);
+
+            if(count($xml->error)) {
+                
+                $resultArr = array();
+
+                foreach($xml->error as $error) {
+                    if($error->code) {
+                        $codes = Mage::getSingleton('pagseguroapi/system_config_source_error_codes');
+                        $message = $codes->getNodeByAttribute($error->code->__toString(), 'value', 'message');
+
+                        $resultArr[] = $this->helper()->__($message);
+                    }
+                }
+                return $resultArr;
+            }
+        }
+        return;
     }
     
 }

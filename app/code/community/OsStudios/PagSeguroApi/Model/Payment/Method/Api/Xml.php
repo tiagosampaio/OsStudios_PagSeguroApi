@@ -169,7 +169,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
      */
     protected function _getNodeReceiver()
     {
-        $credentials = Mage::getSingleton('pagseguro/credentials');
+        $credentials = Mage::getSingleton('pagseguroapi/credentials');
         
         if($credentials->getAccountEmail()) {
             $xmlReceiver = $this->_xml->addChild('receiver');

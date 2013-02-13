@@ -15,9 +15,19 @@
  * @author     Tiago Sampaio <tiago.sampaio@osstudios.com.br>
  */
 
-class OsStudios_PagSeguroApi_Model_Mysql4_Payment_History extends OsStudios_PagSeguroApi_Model_Resource_Payment_History
+class OsStudios_PagSeguroApi_Model_Mysql4_Payment_History extends Mage_Core_Model_Mysql4_Abstract
 {
 
+    protected function _construct()
+    {
+        $this->_init('pagseguroapi/payment_history', 'history_id');
+    }
+
     
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+    	$object->setCreatedAt(now());
+    	return parent::_beforeSave($object);
+    }
 
 }

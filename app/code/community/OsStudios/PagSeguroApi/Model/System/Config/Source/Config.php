@@ -20,13 +20,24 @@
  *
  */
 
-class OsStudios_PagSeguroApi_Model_System_Config_Source_Transaction_Payment_Methods_Types extends OsStudios_PagSeguroApi_Model_System_Config_Source_Config
+class OsStudios_PagSeguroApi_Model_System_Config_Source_Config
 {
 	
-	public function toOptionArray()
+	public function getAssociativeArray($index = 'value', $label = 'label')
 	{
-        $options = Mage::app()->getConfig()->getNode('default/osstudios_pagseguroapi/transaction/payment_methods/types')->asArray();
-        return $options;
+		$options = $this->toOptionArray();
+		$associative = array();
+		foreach($options as $key => $option) {
+			$associative[$option[$index]] = Mage::helper('pagseguroapi')->__($option[$label]);
+		}
+
+		return $associative;
+	}
+
+	public function getNodeByAttribute($value, $index, $attribute)
+	{
+		$arr = $this->getAssociativeArray($index, $attribute);
+		return $arr[$value];
 	}
 
 }

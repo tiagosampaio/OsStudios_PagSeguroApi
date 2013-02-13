@@ -36,9 +36,9 @@
                             <br/><br/>
                             <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
                             <br/>
-                            A URL para Retorno Automático e Notificações API do PagSeguro que você precisa configurar é http://www.sualoja.com.br/pagseguro/returns/.
+                            A URL para Retorno Automático e Notificações API do PagSeguro que você precisa configurar é http://www.sualoja.com.br/pagseguroapi/returns/.
                             <br/>
-                            A URL para o redirecionamento de retorno á loja após a conclusão do pagamento no PagSeguro é http://www.sualoja.com.br/pagseguro/pay/success/ 
+                            A URL para o redirecionamento de retorno á loja após a conclusão do pagamento no PagSeguro é http://www.sualoja.com.br/pagseguroapi/pay/success/ 
                             <br/><br/>
                             <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
                         ]]>
