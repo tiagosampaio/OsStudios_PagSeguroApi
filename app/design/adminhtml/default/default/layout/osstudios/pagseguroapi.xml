@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Os Studios PagSeguro Api Payment Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   OsStudios
+ * @package    OsStudios_PagSeguroApi
+ * @copyright  Copyright (c) 2013 Os Studios (www.osstudios.com.br)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Tiago Sampaio <tiago.sampaio@osstudios.com.br>
+ */
+-->
+
+<layout>
+	<pagseguroapi_adminhtml_transaction_history>
+		<reference name="content">
+			<block type="pagseguroapi/adminhtml_transaction" name="pagseguroapi.returns.transaction" />
+		</reference>
+	</pagseguroapi_adminhtml_transaction_history>
+	<pagseguroapi_adminhtml_transaction_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="pagseguroapi/adminhtml_transaction_grid" name="pagseguroapi.returns.transaction.grid"/>
+        </block>
+    </pagseguroapi_adminhtml_transaction_grid>
+	<pagseguroapi_adminhtml_actions_updateorders>
+		
+	</pagseguroapi_adminhtml_actions_updateorders>
+</layout>

@@ -1,0 +1,544 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Os Studios PagSeguro Api Payment Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   OsStudios
+ * @package    OsStudios_PagSeguroApi
+ * @copyright  Copyright (c) 2013 Os Studios (www.osstudios.com.br)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Tiago Sampaio <tiago.sampaio@osstudios.com.br>
+ */
+-->
+
+<config>
+	<modules>
+        <OsStudios_PagSeguroApi>
+            <version>1.0.0.0</version>          
+        </OsStudios_PagSeguroApi>
+    </modules>
+    <global>
+    	<helpers>
+            <pagseguroapi>
+                <class>OsStudios_PagSeguroApi_Helper</class>
+            </pagseguroapi>
+        </helpers>
+        <blocks>
+            <pagseguroapi>
+                <class>OsStudios_PagSeguroApi_Block</class>
+            </pagseguroapi>
+        </blocks>
+        <models>
+            <pagseguroapi>
+                <class>OsStudios_PagSeguroApi_Model</class>
+                <resourceModel>osstudios_pagseguroapi_resource</resourceModel>
+            </pagseguroapi>
+            <osstudios_pagseguroapi_resource>
+            	<class>OsStudios_PagSeguroApi_Model_Resource</class>
+                <deprecatedNode>osstudios_pagseguroapi_mysql4</deprecatedNode>
+                <entities>
+                    <payment_history>
+                        <table>osstudios_pagseguroapi_payment_history</table>
+                    </payment_history>
+                    <returns_transaction>
+                        <table>osstudios_pagseguroapi_returns_transaction</table>
+                    </returns_transaction>
+                </entities>
+            </osstudios_pagseguroapi_resource>
+        </models>
+        <resources>
+            <pagseguroapi_setup>
+                <setup>
+                    <module>OsStudios_PagSeguroApi</module>
+                </setup>
+            </pagseguroapi_setup>
+        </resources>
+        <events>
+            <sales_order_load_after>
+                <observers>
+                    <osstudios_pagseguroapi_sales_order_payment_load_after>
+                        <type>model</type>
+                        <class>pagseguroapi/observer</class>
+                        <method>salesOrderPaymentLoadAfter</method>
+                    </osstudios_pagseguroapi_sales_order_payment_load_after>
+                </observers>
+            </sales_order_load_after>
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <pagseguroapi>
+                <use>admin</use>
+                <args>
+                    <module>OsStudios_PagSeguroApi</module>
+                    <frontName>pagseguroapi</frontName>
+                </args>
+            </pagseguroapi>
+        </routers>
+    </admin>
+    <adminhtml>
+    	<translate>
+	        <modules>
+	            <pagseguroapi>
+	                <files>
+	                    <default>OsStudios/PagSeguroApi.csv</default>
+	                </files>
+	            </pagseguroapi>
+	        </modules>
+	    </translate>
+	    <layout>
+            <updates>
+                <pagseguroapi>
+                    <file>osstudios/pagseguroapi.xml</file>
+                </pagseguroapi>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>      
+        <routers>
+            <pagseguroapi>
+                <use>standard</use>
+                <args>
+                    <module>OsStudios_PagSeguroApi</module>
+                    <frontName>pagseguroapi</frontName>
+                </args>
+            </pagseguroapi>
+        </routers>
+        <translate>
+            <modules>
+                <pagseguroapi>
+                    <files>
+                        <default>OsStudios/PagSeguroApi.csv</default>
+                    </files>
+                </pagseguroapi>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <pagseguroapi>
+                    <file>osstudios/pagseguroapi.xml</file>
+                </pagseguroapi>
+            </updates>
+        </layout>
+        <events>
+
+        </events>
+    </frontend>
+    <default>
+    	<payment>
+    		<pagseguro_api>
+                <account_email/>
+                <account_token/>
+    			<model>OsStudios_PagSeguroApi_Model_Payment_Method_Api</model>
+				<active>0</active>
+				<title>PagSeguro UOL - API</title>
+                <order_status>pending</order_status>
+				<show_message>1</show_message>
+				<message>You will be redirected to PagSeguro after the order confirmation using API features.</message>
+				<max_uses>100</max_uses>
+				<max_age>3600</max_age>
+				<extra_amount>0.00</extra_amount>
+				<shipping_type>3</shipping_type>
+                <show_installments>1</show_installments>
+                <allow_log_notifications>1</allow_log_notifications>
+                <allow_log_consults>1</allow_log_consults>
+                <allow_log_mass_consults>1</allow_log_mass_consults>
+				<payment_action>createTransaction</payment_action>
+				<pagseguro_api_url>https://ws.pagseguro.uol.com.br/v2/checkout</pagseguro_api_url>
+             	<pagseguro_api_redirect_url>https://pagseguro.uol.com.br/v2/checkout/payment.html</pagseguro_api_redirect_url>
+                <pagseguro_billet_url>https://pagseguro.uol.com.br/checkout/imprimeBoleto.jhtml</pagseguro_billet_url>
+                <pagseguro_transactions_url>https://ws.pagseguro.uol.com.br/v2/transactions</pagseguro_transactions_url>
+                <pagseguro_notifications_url>https://ws.pagseguro.uol.com.br/v2/transactions/notifications</pagseguro_notifications_url>
+                <open_in_other_page>0</open_in_other_page>
+                <automatically_change_orders>1</automatically_change_orders>
+                <automatically_cancel_orders>1</automatically_cancel_orders>
+                <automatically_invoice_orders>1</automatically_invoice_orders>
+                <automatically_hold_orders_for_billet>1</automatically_hold_orders_for_billet>
+                <debug>1</debug>
+    		</pagseguro_api>
+    	</payment>
+    	<osstudios_pagseguroapi>
+            <transaction>
+                <sources>
+                    <sources_1>
+                        <value>1</value>
+                        <label>Notifications</label>
+                    </sources_1>
+                    <sources_2>
+                        <value>2</value>
+                        <label>Consults</label>
+                    </sources_2>
+                    <sources_3>
+                        <value>3</value>
+                        <label>Mass Consults</label>
+                    </sources_3>
+                </sources>
+                <types>
+                    <type_1>
+                        <value>1</value>
+                        <label>Payment</label>
+                    </type_1>
+                </types>
+                <status>
+                    <status_1>
+                        <value>1</value>
+                        <label>Aguardando Pagamento</label>
+                    </status_1>
+                    <status_2>
+                        <value>2</value>
+                        <label>Em Análise</label>
+                    </status_2>
+                    <status_3>
+                        <value>3</value>
+                        <label>Pago</label>
+                    </status_3>
+                    <status_4>
+                        <value>4</value>
+                        <label>Disponível</label>
+                    </status_4>
+                    <status_5>
+                        <value>5</value>
+                        <label>Em Disputa</label>
+                    </status_5>
+                    <status_6>
+                        <value>6</value>
+                        <label>Devolvido</label>
+                    </status_6>
+                    <status_7>
+                        <value>7</value>
+                        <label>Cancelado</label>
+                    </status_7>
+                </status>
+                <payment_methods>
+                    <types>
+                        <type_1>
+                            <value>1</value>
+                            <label>Cartão de Crédito</label>
+                        </type_1>
+                        <type_2>
+                            <value>2</value>
+                            <label>Boleto</label>
+                        </type_2>
+                        <type_3>
+                            <value>3</value>
+                            <label>Débito Online (TEF)</label>
+                        </type_3>
+                        <type_4>
+                            <value>4</value>
+                            <label>Saldo PagSeguro</label>
+                        </type_4>
+                        <type_5>
+                            <value>5</value>
+                            <label>Oi Paggo</label>
+                        </type_5>
+                    </types>
+                    <codes>
+                        <!-- Cartão de Crédito -->
+                        <code_101>
+                            <value>101</value>
+                            <label>Cartão de Crédito Visa</label>
+                        </code_101>
+                        <code_102>
+                            <value>102</value>
+                            <label>Cartão de Crédito MasterCard</label>
+                        </code_102>
+                        <code_103>
+                            <value>103</value>
+                            <label>Cartão de Crédito American Express</label>
+                        </code_103>
+                        <code_104>
+                            <value>104</value>
+                            <label>Cartão de Crédito Diners</label>
+                        </code_104>
+                        <code_105>
+                            <value>105</value>
+                            <label>Cartão de Crédito Hipercard</label>
+                        </code_105>
+                        <code_106>
+                            <value>106</value>
+                            <label>Cartão de Crédito Aura</label>
+                        </code_106>
+                        <code_107>
+                            <value>107</value>
+                            <label>Cartão de Crédito Elo</label>
+                        </code_107>
+                        <code_108>
+                            <value>108</value>
+                            <label>Cartão de Crédito PLENOCard</label>
+                        </code_108>
+                        <code_109>
+                            <value>109</value>
+                            <label>Cartão de Crédito PersonalCard</label>
+                        </code_109>
+                        <code_110>
+                            <value>110</value>
+                            <label>Cartão de Crédito JCB</label>
+                        </code_110>
+                        <code_111>
+                            <value>111</value>
+                            <label>Cartão de Crédito Discover</label>
+                        </code_111>
+                        <code_112>
+                            <value>112</value>
+                            <label>Cartão de Crédito BrasilCard</label>
+                        </code_112>
+                        <code_113>
+                            <value>113</value>
+                            <label>Cartão de Crédito FORTBRASIL</label>
+                        </code_113>
+                        <!-- Boleto-->
+                        <code_201>
+                            <value>201</value>
+                            <label>Boleto Bradesco</label>
+                        </code_201>
+                        <code_202>
+                            <value>202</value>
+                            <label>Boleto Santander</label>
+                        </code_202>
+                        <!-- Débito online (TEF) -->
+                        <code_301>
+                            <value>301</value>
+                            <label>Débito Online Bradesco</label>
+                        </code_301>
+                        <code_302>
+                            <value>302</value>
+                            <label>Débito Online Itaú</label>
+                        </code_302>
+                        <code_303>
+                            <value>303</value>
+                            <label>Débito Online Unibanco</label>
+                        </code_303>
+                        <code_304>
+                            <value>304</value>
+                            <label>Débito Online Banco do Brasil</label>
+                        </code_304>
+                        <code_305>
+                            <value>305</value>
+                            <label>Débito Online Banco Real</label>
+                        </code_305>
+                        <code_306>
+                            <value>306</value>
+                            <label>Débito Online Banrisul</label>
+                        </code_306>
+                        <code_307>
+                            <value>307</value>
+                            <label>Débito Online HSBC</label>
+                        </code_307>
+                        <!-- Saldo PagSeguro -->
+                        <code_401>
+                            <value>401</value>
+                            <label>Saldo PagSeguro</label>
+                        </code_401>
+                        <!-- Oi Paggo -->
+                        <code_501>
+                            <value>501</value>
+                            <label>Oi Paggo</label>
+                        </code_501>
+                    </codes>
+                </payment_methods>
+                <installments>
+                    <min>5.00000</min>
+                    <credit_cards>
+                        <visa>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Visa</label>
+                            <max_installment>12</max_installment>
+                        </visa>
+                        <mastercard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito MasterCard</label>
+                            <max_installment>12</max_installment>
+                        </mastercard>
+                        <amex>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito American Express</label>
+                            <max_installment>15</max_installment>
+                        </amex>
+                        <diners>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Diners</label>
+                            <max_installment>12</max_installment>
+                        </diners>
+                        <hipercard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Hipercard</label>
+                            <max_installment>12</max_installment>
+                        </hipercard>
+                        <aura>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Aura</label>
+                            <max_installment>18</max_installment>
+                        </aura>
+                        <elo>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Elo</label>
+                            <max_installment>12</max_installment>
+                        </elo>
+                        <plenocard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito PLENOCard</label>
+                            <max_installment>3</max_installment>
+                        </plenocard>
+                        <personalcard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito PersonalCard</label>
+                            <max_installment>3</max_installment>
+                        </personalcard>
+                        <jcb>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito JCB</label>
+                            <max_installment>12</max_installment>
+                        </jcb>
+                        <discover>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito Discover</label>
+                            <max_installment>12</max_installment>
+                        </discover>
+                        <brasilcard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito BrasilCard</label>
+                            <max_installment>3</max_installment>
+                        </brasilcard>
+                        <fortbrasil>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito FORTBRASIL</label>
+                            <max_installment>12</max_installment>
+                        </fortbrasil>
+                        <cardban>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito CARDBAN</label>
+                            <max_installment>12</max_installment>
+                        </cardban>
+                        <valecard>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito VALECARD</label>
+                            <max_installment>3</max_installment>
+                        </valecard>
+                        <cabal>
+                            <active>1</active>
+                            <value></value>
+                            <label>Cartão de crédito CABAL</label>
+                            <max_installment>12</max_installment>
+                        </cabal>
+                    </credit_cards>
+                    <factors>
+                        <factor_1>1.00000</factor_1>
+                        <factor_2>0.51875</factor_2>
+                        <factor_3>0.35007</factor_3>
+                        <factor_4>0.26575</factor_4>
+                        <factor_5>0.21518</factor_5>
+                        <factor_6>0.18148</factor_6>
+                        <factor_7>0.15743</factor_7>
+                        <factor_8>0.13941</factor_8>
+                        <factor_9>0.12540</factor_9>
+                        <factor_10>0.11420</factor_10>
+                        <factor_11>0.10505</factor_11>
+                        <factor_12>0.09743</factor_12>
+                        <factor_13>0.09099</factor_13>
+                        <factor_14>0.08548</factor_14>
+                        <factor_15>0.08071</factor_15>
+                        <factor_16>0.07654</factor_16>
+                        <factor_17>0.07287</factor_17>
+                        <factor_18>0.06961</factor_18>
+                    </factors>
+                </installments>
+                <shipping>
+                    <types>
+                        <pac>
+                            <value>1</value>
+                            <label>Encomenda normal (PAC)</label>
+                        </pac>
+                        <sedex>
+                            <value>2</value>
+                            <label>SEDEX</label>
+                        </sedex>
+                        <not_specified>
+                            <value>3</value>
+                            <label>Tipo de frete não especificado</label>
+                        </not_specified>
+                    </types>
+                </shipping>
+            </transaction>
+    		<error_codes>
+	            <code_11001>receiverEmail is required.</code_11001>
+	            <code_11002>receiverEmail invalid length: {0}</code_11002>
+	            <code_11003>receiverEmail invalid value.</code_11003>
+	            <code_11004>Currency is required.</code_11004>
+	            <code_11005>Currency invalid value: {0}</code_11005>
+	            <code_11006>redirectURL invalid length: {0}</code_11006>
+	            <code_11007>redirectURL invalid value: {0}</code_11007>
+	            <code_11008>reference invalid length: {0}</code_11008>
+	            <code_11009>senderEmail invalid length: {0}</code_11009>
+	            <code_11010>senderEmail invalid value: {0}</code_11010>
+	            <code_11011>senderName invalid length: {0}</code_11011>
+	            <code_11012>senderName invalid value: {0}</code_11012>
+	            <code_11013>senderAreaCode invalid value: {0}</code_11013>
+	            <code_11014>senderPhone invalid value: {0}</code_11014>
+	            <code_11015>ShippingType is required.</code_11015>
+	            <code_11016>shippingType invalid type: {0}</code_11016>
+	            <code_11017>shippingPostalCode invalid Value: {0}</code_11017>
+	            <code_11018>shippingAddressStreet invalid length: {0}</code_11018>
+	            <code_11019>shippingAddressNumber invalid length: {0}</code_11019>
+	            <code_11020>shippingAddressComplement invalid length: {0}</code_11020>
+	            <code_11021>shippingAddressDistrict invalid length: {0}</code_11021>
+	            <code_11022>shippingAddressCity invalid length: {0}</code_11022>
+	            <code_11023>shippingAddressState invalid value: {0}, must fit the pattern: \w\{2\} (e. g. "SP")</code_11023>
+	            <code_11024>Itens invalid quantity.</code_11024>
+	            <code_11025>Item Id is required.</code_11025>
+	            <code_11026>Item quantity is required.</code_11026>
+	            <code_11027>Item quantity out of range: {0}</code_11027>
+	            <code_11028>Item amount is required. (e.g. "12.00")</code_11028>
+	            <code_11029>Item amount invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</code_11029>
+	            <code_11030>Item amount out of range: {0}</code_11030>
+	            <code_11031>Item shippingCost invalid pattern: {0}. Must fit the patern: \d+.\d\{2\}</code_11031>
+	            <code_11032>Item shippingCost out of range: {0}</code_11032>
+	            <code_11033>Item description is required.</code_11033>
+	            <code_11034>Item description invalid length: {0}</code_11034>
+	            <code_11035>Item weight invalid Value: {0}</code_11035>
+	            <code_11036>Extra amount invalid pattern: {0}. Must fit the patern: -?\d+.\d\{2\}</code_11036>
+	            <code_11037>Extra amount out of range: {0}</code_11037>
+	            <code_11038>Invalid receiver for checkout: {0}, verify receiver's account status.</code_11038>
+	            <code_11039>Malformed request XML: {0}.</code_11039>
+	            <code_11040>maxAge invalid pattern: {0}. Must fit the patern: \d+</code_11040>
+	            <code_11041>maxAge out of range: {0}</code_11041>
+	            <code_11042>maxUses invalid pattern: {0}. Must fit the patern: \d+</code_11042>
+	            <code_11043>maxUses out of range.</code_11043>
+	            <code_11044>initialDate is required.</code_11044>
+	            <code_11045>initialDate must be lower than allowed limit.</code_11045>
+	            <code_11046>initialDate must not be older than 6 months.</code_11046>
+	            <code_11047>initialDate must be lower than or equal finalDate.</code_11047>
+	            <code_11048>search interval must be lower than or equal 30 days.</code_11048>
+	            <code_11049>finalDate must be lower than allowed limit.</code_11049>
+	            <code_11050>initialDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</code_11050>
+	            <code_11051>finalDate invalid format, use 'yyyy-MM-ddTHH:mm' (eg. 2010-01-27T17:25).</code_11051>
+	            <code_11052>page invalid value.</code_11052>
+	            <code_11053>maxPageResults invalid value (must be between 1 and 1000).</code_11053>
+	            <code_11054>abandonURL invalid length: {0}</code_11054>
+	            <code_11055>abandonURL invalid value: {0}</code_11055>
+	            <code_11056>sender address required invalid value: {0}</code_11056>
+	            <code_11057>sender address not required with address data filled</code_11057>
+        	</error_codes>
+        </osstudios_pagseguroapi>
+    </default>
+</config>

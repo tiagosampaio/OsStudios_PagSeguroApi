@@ -1,0 +1,40 @@
+.pagseguroapi-installments { overflow:auto; }
+
+.pagseguroapi-installments .payment-method-list { display:block; overflow:auto; margin-bottom:15px; }
+.pagseguroapi-installments .payment-method-list .payment-item { float:left; border:none; margin:2px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.payment-link-flag { display:block; text-indent:-99999px; width:71px; height:28px; background:url('../../images/pagseguroapi/cards-sprite.gif') no-repeat white; border:none; }
+
+.pagseguroapi-installments .payment-method-list .payment-item a.visa 			{ background-position:0 0; }
+.pagseguroapi-installments .payment-method-list .payment-item a.mastercard 		{ background-position:0 -28px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.diners 			{ background-position:0 -56px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.amex 			{ background-position:0 -84px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.hipercard 		{ background-position:0 -112px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.aura 			{ background-position:0 -140px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.elo 			{ background-position:0 -476px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.plenocard 		{ background-position:0 -504px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.personalcard 	{ background-position:0 -532px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.brasilcard 		{ background-position:0 -560px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.jcb 			{ background-position:0 -588px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.discover 		{ background-position:0 -616px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.fortbrasil 		{ background-position:0 -644px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.cardban 		{ background-position:0 -672px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.valecard 		{ background-position:0 -700px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.cabal 			{ background-position:0 -728px; }
+
+.pagseguroapi-installments .payment-method-list .payment-item a.billet 			{ background-position:0 -308px; }
+
+.pagseguroapi-installments .payment-method-list .payment-item a.bradesco 		{ background-position:0 -168px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.itau 			{ background-position:0 -196px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.hsbc 			{ background-position:0 -224px; }
+.pagseguroapi-installments .payment-method-list .payment-item a.bb 				{ background-position:0 -252px; }
+
+.pagseguroapi-installments .installment-table { border:solid 1px #ccc; }
+.pagseguroapi-installments .installment-table th,
+.pagseguroapi-installments .installment-table td { padding:2px 5px; border-bottom:solid 1px #efefef; }
+
+.pagseguroapi-installments .installment-table th { color:#5E8AB4; background-color:#D0DCE1; }
+
+
+.pagseguroapi-installments .installment-table .grandtotal,
+.pagseguroapi-installments .installment-table .totalvalue { text-align:right; }
+.pagseguroapi-installments .installment-table .qty { text-align:center; }

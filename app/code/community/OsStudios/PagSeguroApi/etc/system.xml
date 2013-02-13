@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Os Studios PagSeguro Api Payment Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   OsStudios
+ * @package    OsStudios_PagSeguroApi
+ * @copyright  Copyright (c) 2013 Os Studios (www.osstudios.com.br)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Tiago Sampaio <tiago.sampaio@osstudios.com.br>
+ */
+-->
+
+<config>
+    <sections>
+        <payment translate="label" module="payment">
+            <groups>
+                <pagseguro_api translate="label, comment">
+                    <label>PagSeguro API</label>
+                    <sort_order>2020</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment>
+                        <![CDATA[
+                        	<a href="http://www.osstudios.com.br/" target="_blank" title="Os Studios Design - Desenvolvendo o Futuro Online!"><img style="border:none;" src="http://www.osstudios.com.br/skin/frontend/osstudios/osstudios/images/logo.png"/></a><br/><br/>
+                            Versão do Módulo: 1.0.0.0<br/>
+                            Desenvolvido por <b><a href="mailto:tiago.sampaio@osstudios.com.br">Tiago Sampaio</a></b><br/>
+                            Visite o website da <a href="http://www.osstudios.com.br" target="_blank">Os Studios Design</a>.
+                            <br/><br/>
+                            <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
+                            <br/>
+                            A URL para Retorno Automático e Notificações API do PagSeguro que você precisa configurar é http://www.sualoja.com.br/pagseguro/returns/.
+                            <br/>
+                            A URL para o redirecionamento de retorno á loja após a conclusão do pagamento no PagSeguro é http://www.sualoja.com.br/pagseguro/pay/success/ 
+                            <br/><br/>
+                            <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
+                        ]]>
+                    </comment>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+
+                        <order_status translate="label">
+                            <label>New Orders Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_status>
+
+                        <account_email translate="label">
+                            <label>PagSeguro Account E-mail</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-email</validate>
+                        </account_email>
+
+                        <account_token translate="label, comment">
+                            <label>Token</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>To activate automatic return from PagSeguro access your account and generate a token code and paste it here.</comment>
+                        </account_token>
+
+                        <max_uses translate="label, comment">
+                            <label>Max Uses</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Defines the max times the payment code created by API call can be used. This parameter can be used as a secure control.</comment>
+                            <validate>validate-number</validate>
+                        </max_uses>
+
+                        <max_age translate="label, comment">
+                            <label>Max Age (Seconds)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Defines the time limit (in seconds) to use a payment code created by API call. This parameter can be used as a secure control.</comment>
+                            <validate>validate-number</validate>
+                        </max_age>
+
+                        <extra_amount translate="label, comment">
+                            <label>Extra Amount</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Defines an extra amount to be added or discounted from the payment. This value can be presented as an additional tax amount or a dicount in case it is negative.</comment>
+                            <validate>validate-number</validate>
+                        </extra_amount>
+
+                        <shipping_type translate="label, comment">
+                            <label>Shipping Method (PagSeguro)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>pagseguroapi/system_config_source_shipping_type</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Defines the type of shipping method to be used. This information is used by PagSeguro to calculate, using Correios System, the shipping value based on the weight of the items.</comment>
+                        </shipping_type>
+
+                        <message translate="label, comment">
+                            <label>Add Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>This content is displayed when customer is choosing the payment method on checkout.</comment>
+                        </message>
+
+                        <show_installments translate="label, comment">
+                            <label>Show Installments Simulator</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Activates option to show installments simulator in checkout page.</comment>
+                        </show_installments>
+
+                        <open_in_other_page translate="label, comment">
+                            <label>Open PagSeguro in Other Page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If set to true the PagSeguro page will be opened in other page and the current page will be the success page.</comment>
+                        </open_in_other_page>
+
+                        <automatically_change_orders translate="label, comment">
+                            <label>Change Orders Automatically</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If set to true the orders can be changed automatically by API returns from PagSeguro.</comment>
+                        </automatically_change_orders>
+
+                        <automatically_cancel_orders translate="label, comment">
+                            <label>Cancel Orders Automatically</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If set to true the order will be canceled automatically when PagSeguro cancel it.</comment>
+                            <depends>
+                                <automatically_change_orders>1</automatically_change_orders>
+                            </depends>
+                        </automatically_cancel_orders>
+
+                        <automatically_invoice_orders translate="label, comment">
+                            <label>Invoice Orders Automatically</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If set to true the order will be invoiced automatically when PagSeguro approve the payment.</comment>
+                            <depends>
+                                <automatically_change_orders>1</automatically_change_orders>
+                            </depends>
+                        </automatically_invoice_orders>
+
+                        <automatically_hold_orders_for_billet translate="label, comment">
+                            <label>Hold Order for Billet Payment Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If set to true the order will be holded until PagSeguro approve or cancel the payment.</comment>
+                            <depends>
+                                <automatically_change_orders>1</automatically_change_orders>
+                            </depends>
+                        </automatically_hold_orders_for_billet>
+                        
+                        <allow_log_notifications translate="label, comment">
+                            <label>Allow Log Notifications</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Allow or disallow to log transaction by notifications.</comment>
+                        </allow_log_notifications>
+
+                        <allow_log_consults translate="label, comment">
+                            <label>Allow Log Consults</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Allow or disallow to log transaction by consults.</comment>
+                        </allow_log_consults>
+
+                        <allow_log_mass_consults translate="label, comment">
+                            <label>Allow Log Mass Consults</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Allow or disallow to log transaction by mass consults.</comment>
+                        </allow_log_mass_consults>
+
+                    </fields>
+                </pagseguro_api>
+        	</groups>
+        </payment>
+    </sections>
+</config>
