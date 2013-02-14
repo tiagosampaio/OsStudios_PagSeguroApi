@@ -161,7 +161,7 @@ class OsStudios_PagSeguroApi_Model_Returns_Transaction extends OsStudios_PagSegu
 	{
 		if(!$this->getOrder() || !($this->getOrder() instanceof Mage_Sales_Model_Order)) {
 			return false;
-		} elseif(((float) $this->getOrder()->getGrandTotal() - (float) $this->getGrossAmount()) > 0) {
+		} elseif(round(((float) $this->getOrder()->getGrandTotal() - (float) $this->getGrossAmount()), 2) != (float) 0.00) {
 			return false;
 		} 
 

@@ -143,7 +143,9 @@ class OsStudios_PagSeguroApi_Model_Returns extends OsStudios_PagSeguroApi_Model_
 							Mage::dispatchEvent('order_cancel_after', array('order' => $this));
 							$order->save();
 						} else {
-							$order->addStatusHistoryComment($this->helper()->__('PagSeguroApi: The order could not be automatically canceled by PagSeguroApi. PagSeguro has canceled the payment.'), false)->save();
+							if($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+								$order->addStatusHistoryComment($this->helper()->__('PagSeguroApi: The order could not be automatically canceled by PagSeguroApi. PagSeguro has canceled the payment.'), false)->save();
+							}
 						}
 					} catch (Exception $e) {
 						Mage::log($this->helper()->__('PagSeguroApi: Exception occurred when trying to cancel order automatically. Exception message: %s.', $e->getMessage()), null, 'pagseguroapi_return_exceptions.log');
