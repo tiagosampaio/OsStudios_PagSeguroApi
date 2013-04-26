@@ -204,7 +204,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
                 foreach($xml->error as $error) {
                     if($error->code) {
                         $codes = Mage::getSingleton('pagseguroapi/system_config_source_error_codes');
-                        $message = $codes->getNodeByAttribute($error->code->__toString(), 'value', 'message');
+                        $message = $codes->getNodeByAttribute($error->code, 'value', 'message');
 
                         $resultArr[] = $this->helper()->__($message);
                     }
