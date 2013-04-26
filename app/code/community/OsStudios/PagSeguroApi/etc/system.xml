@@ -73,6 +73,16 @@
                             <show_in_store>1</show_in_store>
                         </order_status>
 
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
+                        </sort_order>
+
                         <account_email translate="label">
                             <label>PagSeguro Account E-mail</label>
                             <frontend_type>text</frontend_type>
