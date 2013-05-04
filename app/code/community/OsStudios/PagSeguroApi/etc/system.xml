@@ -226,7 +226,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>If set to true the order will be holded until PagSeguro approve or cancel the payment.</comment>
+                            <comment>If set to true the order will be held until PagSeguro approves or cancels the payment.</comment>
                             <depends>
                                 <automatically_change_orders>1</automatically_change_orders>
                             </depends>
