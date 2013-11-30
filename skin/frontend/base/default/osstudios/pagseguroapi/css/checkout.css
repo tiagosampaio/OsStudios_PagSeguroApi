@@ -2,7 +2,7 @@
 
 .pagseguroapi-installments .payment-method-list { display:block; overflow:auto; margin-bottom:15px; }
 .pagseguroapi-installments .payment-method-list .payment-item { float:left; border:none; margin:2px; }
-.pagseguroapi-installments .payment-method-list .payment-item a.payment-link-flag { display:block; text-indent:-99999px; width:71px; height:28px; background:url('../../images/pagseguroapi/cards-sprite.gif') no-repeat white; border:none; }
+.pagseguroapi-installments .payment-method-list .payment-item a.payment-link-flag { display:block; text-indent:-99999px; width:71px; height:28px; background:url('../images/pagseguroapi/cards-sprite.gif') no-repeat white; border:none; }
 
 .pagseguroapi-installments .payment-method-list .payment-item a.visa 			{ background-position:0 0; }
 .pagseguroapi-installments .payment-method-list .payment-item a.mastercard 		{ background-position:0 -28px; }

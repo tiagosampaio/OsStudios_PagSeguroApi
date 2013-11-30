@@ -29,7 +29,9 @@
     </pagseguroapi_pay_success>
     <checkout_onepage_index>
     	<reference name="head">
-    		<action method="addCss"><stylesheet>css/pagseguroapi/checkout.css</stylesheet></action>
+    		<action method="addCss">
+				<stylesheet>osstudios/pagseguroapi/css/checkout.css</stylesheet>
+			</action>
     	</reference>
     </checkout_onepage_index>
 </layout>
