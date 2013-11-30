@@ -17,23 +17,36 @@
 
 class OsStudios_PagSeguroApi_PayController extends OsStudios_PagSeguroApi_Controller_Front_Action
 {
-    
+
+	/**
+	 * Gets tha order id passed as a param in QueryString by PagSeguro
+	 *
+	 * @return int
+	 */
+	protected function _getLastOrderId()
+	{
+		return (int) $this->getRequest()->getParam('order_id');
+	}
+
+
     /**
      * Shows success page after payment.
      * 
      */
     public function successAction()
     {
-        $session = $this->getOnepage()->getCheckout();
-        if (!$session->getLastSuccessQuoteId()) {
-            $this->_redirect('checkout/cart');
-            return;
-        }
+		$session = $this->getOnepage()->getCheckout();
 
-        $lastQuoteId = $session->getLastQuoteId();
-        $lastOrderId = $session->getLastOrderId();
-        $lastRecurringProfiles = $session->getLastRecurringProfileIds();
-        if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
+		$lastQuoteId = $session->getLastQuoteId();
+		$lastOrderId = $session->getLastOrderId() ? $session->getLastOrderId() : $this->_getLastOrderId();
+		$lastRecurringProfiles = $session->getLastRecurringProfileIds();
+
+		if (!$session->getLastSuccessQuoteId() && !$lastOrderId) {
+			$this->_redirect('checkout/cart');
+			return;
+		}
+
+		if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
             $this->_redirect('checkout/cart');
             return;
         }

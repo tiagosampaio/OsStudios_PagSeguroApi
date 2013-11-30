@@ -67,7 +67,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
      */
     public function initialize($paymentAction, $stateObject)
     {
-        return $this->$paymentAction();
+		return $this->$paymentAction();
     }
 
 
@@ -81,41 +81,51 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
         $credentials = Mage::getSingleton('pagseguroapi/credentials');
         $url = sprintf('%s?email=%s&token=%s', $this->getConfigData('pagseguro_api_url'), $credentials->getAccountEmail(), $credentials->getAccountToken());
 
-        $xml = Mage::getSingleton('pagseguroapi/payment_method_api_xml')->setOrder($this->_getOrder())->getXml();
+		try{
+			$xml = Mage::getSingleton('pagseguroapi/payment_method_api_xml')->setOrder($this->_getOrder())->getXml();
 
-        $client = new Zend_Http_Client($url);
-        $client->setMethod(Zend_Http_Client::POST)
-               ->setHeaders('Content-Type: application/xml; charset=ISO-8859-1')
-               ->setRawData($xml->asXML(), 'text/xml');
-        
-        $request = $client->request();
+			$client = new Zend_Http_Client($url);
+			$client->setMethod(Zend_Http_Client::POST)
+				   ->setHeaders('Content-Type: application/xml; charset=ISO-8859-1')
+				   ->setRawData($xml->asXML(), 'text/xml');
 
-        if(!$this->helper()->isXml(($body = $request->getBody()))) {
-            Mage::log($this->helper()->__("When the system tried to authorize with login '%s' and token '%s' got '%s' as result.", $credentials->getAccountEmail(), $credentials->getAccountToken(), $request->getBody()), null, 'osstudios_pagseguro_unauthorized.log');
-            Mage::throwException($this->helper()->__('A problem has occured while trying to authorize the transaction in PagSeguro.'));
-        }
+			$request = $client->request();
 
-        $hasErrors = $this->_hasErrorInReturn($body);
-        if(is_array($hasErrors)) {
-            $message = implode("\n", $hasErrors);
-            Mage::throwException($message);
-        }
+			if(!$this->helper()->isXml(($body = $request->getBody()))) {
+				Mage::log($this->helper()->__("When the system tried to authorize with login '%s' and token '%s' got '%s' as result.", $credentials->getAccountEmail(), $credentials->getAccountToken(), $request->getBody()), null, 'osstudios_pagseguro_unauthorized.log');
+				Mage::throwException($this->helper()->__('A problem has occured while trying to authorize the transaction in PagSeguro.'));
+			}
 
-        $config = new Varien_Simplexml_Config($body);
-        $result = $config->getNode()->asArray();
+			$errors = $this->_hasErrorInReturn($body);
+			if(is_array($errors)) {
+				$message = implode("\n", $errors);
+				Mage::throwException($message);
+				return;
+			}
 
-        if((!isset($result['code']) || !$this->_isValidPagSeguroResultCode($result['code'])) || !isset($result['date'])) {
-            Mage::throwException($this->helper()->__('Your payment could not be processed by PagSeguro.'));
-        }
+			$config = new Varien_Simplexml_Config($body);
+			$result = $config->getNode()->asArray();
 
-        Mage::register($this->_identifierCodeRegistry, $result['code']);
+			if((!isset($result['code']) || !$this->_isValidPagSeguroResultCode($result['code'])) || !isset($result['date'])) {
+				Mage::throwException($this->helper()->__('Your payment could not be processed by PagSeguro.'));
+			}
 
-        $history = Mage::getModel('pagseguroapi/payment_history');
-        $history->setOrderId($this->_getOrder()->getId())
-                ->setOrderIncrementId($this->_getOrder()->getRealOrderId())
-                ->setPagseguroPaymentIdentifierCode($result['code'])
-                ->setPagseguroTransactionDate($result['date'])
-                ->save();
+			Mage::register($this->_identifierCodeRegistry, $result['code']);
+
+			$history = Mage::getModel('pagseguroapi/payment_history');
+			$history->setOrderId($this->_getOrder()->getId())
+					->setOrderIncrementId($this->_getOrder()->getRealOrderId())
+					->setPagseguroPaymentIdentifierCode($result['code'])
+					->setPagseguroTransactionDate($result['date'])
+					->save();
+
+		} catch (Mage_Core_Exception $e) {
+			Mage::throwException($e->getMessage());
+			return $this;
+		} catch (Exception $e) {
+			Mage::throwException($e->getMessage());
+			return $this;
+		}
 
         return $this;
     }
@@ -203,10 +213,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api extends OsStudios_PagSegur
 
                 foreach($xml->error as $error) {
                     if($error->code) {
-                        $codes = Mage::getSingleton('pagseguroapi/system_config_source_error_codes');
-                        $message = $codes->getNodeByAttribute($error->code, 'value', 'message');
-
-                        $resultArr[] = $this->helper()->__($message);
+						$resultArr[] = Mage::helper('pagseguroapi')->__('Error: %s (%s)', $error->message, $error->code);
                     }
                 }
                 return $resultArr;

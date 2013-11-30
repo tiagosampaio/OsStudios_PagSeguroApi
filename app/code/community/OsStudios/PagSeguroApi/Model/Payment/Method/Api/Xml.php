@@ -237,7 +237,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
      */
     protected function _getNodeRedirectURL()
     {
-        $this->_xml->addChild('redirectURL', Mage::getUrl('pagseguroapi/pay/success'));
+        $this->_xml->addChild('redirectURL', Mage::getUrl('pagseguroapi/pay/success', array('order_id' => $this->getOrder()->getId())));
         return $this;
     }
     
@@ -257,8 +257,8 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
                 $xmlItem = $xmlItems->addChild('item');
                 
                 $xmlItem->addChild('id', (string) $item->getProductId());
-                $xmlItem->addChild('description', $item->getName());
-                $xmlItem->addChild('amount', $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
+                $xmlItem->addChild('description', substr($item->getName(), 0, 99));
+                $xmlItem->addChild('amount', (double) $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
                 $xmlItem->addChild('quantity', (int) $item->getQtyOrdered());
                 $xmlItem->addChild('shippingCost', '0.00');
                 $xmlItem->addChild('weight', (int) $item->getWeight());
@@ -331,9 +331,9 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
         $xmlShipping = $this->_xml->addChild('shipping');
         
         if($this->getOrder()) {
-        $shipping = $this->getOrder()->getShippingAddress();
+        	$shipping = $this->getOrder()->getShippingAddress();
         
-        $xmlShipping->addChild('cost', $this->_formatNumberToXml($this->getOrder()->getShippingAmount()));
+        	$xmlShipping->addChild('cost', $this->_formatNumberToXml($this->getOrder()->getShippingAmount()));
         
             $xmlShipping->addChild('type', Mage::getStoreConfig('payment/'.OsStudios_PagSeguroApi_Model_Payment::PAGSEGURO_METHOD_CODE_API.'/shipping_type'));
             $xmlAddress = $xmlShipping->addChild('address');
@@ -348,7 +348,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
             
             $xmlAddress->addChild('street', $this->helper()->cleanStringToXml($address[0]));
             $xmlAddress->addChild('number', preg_replace('/[^0-9]/', null, $address[1]));
-            $xmlAddress->addChild('complement');
+            $xmlAddress->addChild('complement', '');
             $xmlAddress->addChild('district', $this->helper()->cleanStringToXml($address[2]));
             $xmlAddress->addChild('postalCode', preg_replace('/[^0-9]/', null, $shipping->getPostcode()));
             $xmlAddress->addChild('city', $this->helper()->cleanStringToXml($shipping->getCity()));
