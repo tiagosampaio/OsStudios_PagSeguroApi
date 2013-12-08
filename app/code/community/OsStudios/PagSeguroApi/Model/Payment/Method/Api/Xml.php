@@ -153,6 +153,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
              ->_getNodeMaxAge()
              ->_getNodeExtraAmount()
              ->_getNodeRedirectURL()
+			 ->_getNodeNotificationURL()
              ->_getNodeItems()
              ->_getNodeReference()
              ->_getNodeSender()
@@ -187,7 +188,6 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
     protected function _getNodeCurrency()
     {
         if($this->getOrder()) {
-            //$this->_xml->addChild('currency', $this->getOrder()->getStoreCurrencyCode());
             $this->_xml->addChild('currency', 'BRL');
         }
         return $this;
@@ -237,9 +237,21 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
      */
     protected function _getNodeRedirectURL()
     {
-        $this->_xml->addChild('redirectURL', Mage::getUrl('pagseguroapi/pay/success', array('order_id' => $this->getOrder()->getId())));
+        $this->_xml->addChild('redirectURL', (string) substr(Mage::getUrl('pagseguroapi/pay/success', array('order_id' => $this->getOrder()->getId())), 0, 255));
         return $this;
     }
+
+
+	/**
+	 * Generates the <notificationURL/> node
+	 *
+	 * @return OsStudios_PagSeguro_Model_Api_Xml
+	 */
+	protected function _getNodeNotificationURL()
+	{
+		$this->_xml->addChild('notificationURL', (string) substr(Mage::getUrl('pagseguroapi/returns'), 0, 255));
+		return $this;
+	}
     
     
     /**
@@ -256,12 +268,12 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
             foreach($this->getOrder()->getAllVisibleItems() as $item) {
                 $xmlItem = $xmlItems->addChild('item');
                 
-                $xmlItem->addChild('id', (string) $item->getProductId());
-                $xmlItem->addChild('description', substr($item->getName(), 0, 100));
-                $xmlItem->addChild('amount', (double) $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
-                $xmlItem->addChild('quantity', (int) $item->getQtyOrdered());
-                $xmlItem->addChild('shippingCost', '0.00');
-                $xmlItem->addChild('weight', (int) $item->getWeight());
+                $xmlItem->addChild('id', 			(string) substr($item->getProductId(), 0, 100));
+                $xmlItem->addChild('description', 	(string) substr($item->getName(), 0, 100));
+                $xmlItem->addChild('amount', 		(double) $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
+                $xmlItem->addChild('quantity', 		(int) $item->getQtyOrdered());
+                $xmlItem->addChild('shippingCost', 	(double) '0.00');
+                $xmlItem->addChild('weight', 		(int) $item->getWeight());
             }
         }
         
@@ -277,7 +289,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
     protected function _getNodeReference()
     {
         if($this->getOrder()) {
-            $this->_xml->addChild('reference', $this->getOrder()->getRealOrderId());
+            $this->_xml->addChild('reference', substr($this->getOrder()->getRealOrderId(), 0, 200));
         }
         return $this;
     }
@@ -298,15 +310,12 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
             
             /**
              * @todo: Find another way to threat the phone number.
-             * 
              */
             $phone = preg_replace('/[^0-9]/', null, $this->getOrder()->getShippingAddress()->getTelephone());
             
             $digitCount = 8;
             if(($len = strlen($phone)) >= 11) {
                 $digitCount = 9;
-            } elseif($len == 10) {
-                $digitCount = 8;
             }
             
             $areaCode = substr($phone, 0, ($len-$digitCount));
@@ -349,12 +358,12 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
 				);
             }
             
-            $xmlAddress->addChild('street', $this->helper()->cleanStringToXml($address[0]));
-            $xmlAddress->addChild('number', preg_replace('/[^0-9]/', null, $address[1]));
-            $xmlAddress->addChild('complement', $this->helper()->cleanStringToXml($address[2]));
-            $xmlAddress->addChild('district', $this->helper()->cleanStringToXml($address[3]));
-            $xmlAddress->addChild('postalCode', preg_replace('/[^0-9]/', null, $shipping->getPostcode()));
-            $xmlAddress->addChild('city', $this->helper()->cleanStringToXml($shipping->getCity()));
+            $xmlAddress->addChild('street', 		substr($this->helper()->cleanStringToXml($address[0]), 0, 80));
+            $xmlAddress->addChild('number', 		substr(preg_replace('/[^0-9]/', null, $address[1]), 0, 20));
+            $xmlAddress->addChild('complement', 	substr($this->helper()->cleanStringToXml($address[2]), 0, 40));
+            $xmlAddress->addChild('district', 		substr($this->helper()->cleanStringToXml($address[3]), 0, 60));
+            $xmlAddress->addChild('postalCode', 	substr(preg_replace('/[^0-9]/', null, $shipping->getPostcode()), 0, 8));
+            $xmlAddress->addChild('city', 			substr($this->helper()->cleanStringToXml($shipping->getCity()), 0, 60));
             
             $regionCode = $this->helper()->cleanStringToXml($shipping->getRegionCode());
             
@@ -375,7 +384,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
 	 */
 	protected function _formatNumberToXml($value = 0.00)
     {
-        return (float) number_format($value, 2, '.', '');
+        return (double) number_format($value, 2, '.', '');
     }
 
 }
