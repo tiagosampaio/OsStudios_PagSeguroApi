@@ -331,7 +331,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
         $xmlShipping = $this->_xml->addChild('shipping');
         
         if($this->getOrder()) {
-        	$shipping = $this->getOrder()->getShippingAddress();
+        	$shipping = $this->getOrder()->getShippingAddress() ? $this->getOrder()->getShippingAddress() : $this->getOrder()->getBillingAddress();
         
         	$xmlShipping->addChild('cost', $this->_formatNumberToXml($this->getOrder()->getShippingAmount()));
         
@@ -339,17 +339,20 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
             $xmlAddress = $xmlShipping->addChild('address');
             
             if(is_array($shipping->getStreet())) {
-                $street = implode(' - ', $shipping->getStreet());
-            } elseif(is_string($shipping->getStreet())) {
-                $street = $shipping->getStreet();
+                $address = $shipping->getStreet();
+            } else {
+				$address = array(
+					$shipping->getStreet(),
+					'0',
+					$this->helper()->__('Not Provided'),
+					$this->helper()->__('Not Provided')
+				);
             }
-            
-            $address = $this->helper()->trataEndereco($street);
             
             $xmlAddress->addChild('street', $this->helper()->cleanStringToXml($address[0]));
             $xmlAddress->addChild('number', preg_replace('/[^0-9]/', null, $address[1]));
-            $xmlAddress->addChild('complement', '');
-            $xmlAddress->addChild('district', $this->helper()->cleanStringToXml($address[2]));
+            $xmlAddress->addChild('complement', $this->helper()->cleanStringToXml($address[2]));
+            $xmlAddress->addChild('district', $this->helper()->cleanStringToXml($address[3]));
             $xmlAddress->addChild('postalCode', preg_replace('/[^0-9]/', null, $shipping->getPostcode()));
             $xmlAddress->addChild('city', $this->helper()->cleanStringToXml($shipping->getCity()));
             
