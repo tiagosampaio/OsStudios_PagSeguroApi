@@ -30,15 +30,18 @@
                     <comment>
                         <![CDATA[
                         	<a href="http://www.osstudios.com.br/" target="_blank" title="Os Studios Design - Desenvolvendo o Futuro Online!"><img style="border:none;" src="http://www.osstudios.com.br/skin/frontend/osstudios/osstudios/images/logo.png"/></a><br/><br/>
-                            Versão do Módulo: 1.0.0.0<br/>
+                            Versão do Módulo: 1.0.0.3<br/>
                             Desenvolvido por <b><a href="mailto:tiago.sampaio@osstudios.com.br">Tiago Sampaio</a></b><br/>
                             Visite o website da <a href="http://www.osstudios.com.br" target="_blank">Os Studios Design</a>.
                             <br/><br/>
                             <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
                             <br/>
-                            A URL para Retorno Automático e Notificações API do PagSeguro que você precisa configurar é http://www.sualoja.com.br/pagseguroapi/returns/.
+                            A URL para Retorno Automático e Notificações API do PagSeguro é http://www.sualoja.com.br/pagseguroapi/returns/.<br/>
+                            Esta informação já é enviada na requisição, porém a configuração dela é opcional.
+
                             <br/>
-                            A URL para o redirecionamento de retorno á loja após a conclusão do pagamento no PagSeguro é http://www.sualoja.com.br/pagseguroapi/pay/success/ 
+                            A URL para o redirecionamento de retorno á loja após a conclusão do pagamento no PagSeguro é http://www.sualoja.com.br/pagseguroapi/pay/success/<br/>
+                            Esta informação já é enviada na requisição, porém a configuração dela é opcional.
                             <br/><br/>
                             <hr style="border:none; border-top:1px solid #ccc; border-bottom:1px solid white;" />
                         ]]>
