@@ -270,7 +270,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
                 
                 $xmlItem->addChild('id', 			(string) substr($item->getProductId(), 0, 100));
                 $xmlItem->addChild('description', 	(string) substr($item->getName(), 0, 100));
-                $xmlItem->addChild('amount', 		(double) $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
+                $xmlItem->addChild('amount', 		$this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
                 $xmlItem->addChild('quantity', 		(int) $item->getQtyOrdered());
                 $xmlItem->addChild('shippingCost', 	(double) '0.00');
                 $xmlItem->addChild('weight', 		(int) $item->getWeight());
