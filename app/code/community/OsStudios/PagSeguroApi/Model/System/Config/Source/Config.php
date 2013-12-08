@@ -22,7 +22,13 @@
 
 class OsStudios_PagSeguroApi_Model_System_Config_Source_Config
 {
-	
+
+	/**
+	 * @param string $index
+	 * @param string $label
+	 *
+	 * @return array
+	 */
 	public function getAssociativeArray($index = 'value', $label = 'label')
 	{
 		$options = $this->toOptionArray();
@@ -34,10 +40,18 @@ class OsStudios_PagSeguroApi_Model_System_Config_Source_Config
 		return $associative;
 	}
 
+
+	/**
+	 * @param $value
+	 * @param $index
+	 * @param $attribute
+	 *
+	 * @return null
+	 */
 	public function getNodeByAttribute($value, $index, $attribute)
 	{
 		$arr = $this->getAssociativeArray($index, $attribute);
-		return $arr[$value];
+		return isset($arr[$value]) ? $arr[$value] : null;
 	}
 
 }
