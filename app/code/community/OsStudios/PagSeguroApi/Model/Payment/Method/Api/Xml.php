@@ -257,7 +257,7 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
                 $xmlItem = $xmlItems->addChild('item');
                 
                 $xmlItem->addChild('id', (string) $item->getProductId());
-                $xmlItem->addChild('description', substr($item->getName(), 0, 99));
+                $xmlItem->addChild('description', substr($item->getName(), 0, 100));
                 $xmlItem->addChild('amount', (double) $this->_formatNumberToXml(($item->getRowTotal() /  $item->getQtyOrdered())));
                 $xmlItem->addChild('quantity', (int) $item->getQtyOrdered());
                 $xmlItem->addChild('shippingCost', '0.00');
@@ -374,4 +374,5 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
     {
         return (float) number_format($value, 2, '.', '');
     }
+
 }
