@@ -361,10 +361,17 @@ class OsStudios_PagSeguroApi_Model_Payment_Method_Api_Xml extends OsStudios_PagS
         
         return $this;
     }
-    
-    
-    protected function _formatNumberToXml($value = 0.00)
+
+
+	/**
+	 * Formats number for XML purpose
+	 *
+	 * @param float $value
+	 *
+	 * @return float
+	 */
+	protected function _formatNumberToXml($value = 0.00)
     {
-        return number_format($value, 2, '.', '');
+        return (float) number_format($value, 2, '.', '');
     }
 }
